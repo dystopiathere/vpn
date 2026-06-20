@@ -1,25 +1,25 @@
 #!/usr/bin/env node
 /**
  * Parses a VLESS subscription (raw vless:// lines or base64-encoded list)
- * into sing-box outbound JSON objects, wrapped in a urltest selector.
+ * into a sing-box outbounds config, wrapped in a urltest selector.
  *
  * Usage:
- *   node get-outbounds.js <source> [output.json]
+ *   node get-outbounds.js <source>
  *
  *   <source> — subscription URL (http/https) or path to a local file
  *              containing either base64 subscription text or raw
  *              newline-separated vless:// URIs.
  *
- *   [output.json] — optional output path (default: outbounds.json)
- *
- * Output is a ready-to-paste array for the top-level "outbounds" field:
- *   [ {urltest "proxy"}, {vless ...}, {vless ...}, ..., {direct} ]
+ * Always writes to confd/02-outbounds.json, relative to this script's
+ * own location — output path is fixed and not configurable.
  *
  * Requires Node.js 18+ (global fetch).
  */
 
 const fs = require("fs");
 const path = require("path");
+
+const OUT_PATH = path.join(__dirname, "confd", "02-outbounds.json");
 
 const SELECTOR_TAG = "proxy";
 const SELECTOR_TYPE = "urltest"; // change to "selector" if you want manual switching
@@ -146,9 +146,9 @@ function parseVlessUri(uri, used) {
 }
 
 async function main() {
-  const [, , source, outPath = "outbounds.json"] = process.argv;
+  const [, , source] = process.argv;
   if (!source) {
-    console.error("Usage: node parse-vless-sub.js <subscription-url-or-file> [output.json]");
+    console.error("Usage: node get-outbounds.js <subscription-url-or-file>");
     process.exit(1);
   }
 
@@ -179,10 +179,14 @@ async function main() {
     ...(SELECTOR_TYPE === "urltest" ? { url: TEST_URL, interval: "3m", tolerance: 50 } : { default: servers[0].tag }),
   };
 
-  const result = { outbounds: [selector, ...servers, { type: "direct", tag: "direct" }] };
+  const config = {
+    outbounds: [selector, ...servers, { type: "direct", tag: "direct" }],
+  };
 
-  fs.writeFileSync(outPath, JSON.stringify(result, null, 2), "utf-8");
-  console.error(`Parsed ${servers.length} server(s) -> ${path.resolve(outPath)}`);
+  fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
+  fs.writeFileSync(OUT_PATH, JSON.stringify(config, null, 2), "utf-8");
+  console.error(`Parsed ${servers.length} server(s) -> ${OUT_PATH}`);
+  console.error("Run service-restart.bat (or start.bat) to apply.");
 }
 
 main().catch((err) => {

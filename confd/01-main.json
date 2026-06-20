@@ -45,6 +45,7 @@
       { "rule_set": ["domains-direct"], "outbound": "direct" },
       { "rule_set": ["domains-proxy"], "outbound": "proxy" },
 
+      { "rule_set": ["apps-custom"], "outbound": "proxy" },
       { "rule_set": ["apps-discord"], "outbound": "proxy" },
       { "rule_set": ["apps-telegram"], "outbound": "proxy" },
       { "rule_set": ["geoip-telegram"], "outbound": "proxy" },
@@ -89,6 +90,12 @@
         "type": "local",
         "format": "source",
         "path": "lists/apps-telegram.json"
+      },
+      {
+        "tag": "apps-custon",
+        "type": "local",
+        "format": "source",
+        "path": "lists/apps-custom.json"
       },
 
       {
