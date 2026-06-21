@@ -45,6 +45,9 @@
       { "rule_set": ["domains-direct"], "outbound": "direct" },
       { "rule_set": ["domains-proxy"], "outbound": "proxy" },
 
+      { "rule_set": ["ips-direct"], "outbound": "direct" },
+      { "rule_set": ["ips-proxy"], "outbound": "proxy" },
+
       { "rule_set": ["apps-custom"], "outbound": "proxy" },
       { "rule_set": ["apps-discord"], "outbound": "proxy" },
       { "rule_set": ["apps-telegram"], "outbound": "proxy" },
@@ -109,6 +112,19 @@
         "type": "local",
         "format": "source",
         "path": "lists/domains-proxy.json"
+      },
+
+      {
+        "tag": "ips-direct",
+        "type": "local",
+        "format": "source",
+        "path": "lists/ips-direct.json"
+      },
+      {
+        "tag": "ips-proxy",
+        "type": "local",
+        "format": "source",
+        "path": "lists/ips-proxy.json"
       }
     ],
 
