@@ -92,7 +92,7 @@
         "path": "lists/apps-telegram.json"
       },
       {
-        "tag": "apps-custon",
+        "tag": "apps-custom",
         "type": "local",
         "format": "source",
         "path": "lists/apps-custom.json"
