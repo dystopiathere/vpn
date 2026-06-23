@@ -27,9 +27,10 @@
       "type": "tun",
       "tag": "tun-in",
       "address": ["172.19.0.1/30", "fdfe:dcba:9876::1/126"],
-      "mtu": 9000,
+      "mtu": 1500,
       "auto_route": true,
       "strict_route": true,
+      "route_exclude_address_set": ["ips-direct"],
       "stack": "system"
     }
   ],
@@ -38,14 +39,13 @@
     "default_domain_resolver": "dns-direct",
     "rules": [
       { "action": "sniff" },
+
       { "protocol": "dns", "action": "hijack-dns" },
 
       { "ip_is_private": true, "outbound": "direct" },
 
       { "rule_set": ["domains-direct"], "outbound": "direct" },
       { "rule_set": ["domains-proxy"], "outbound": "proxy" },
-
-      { "rule_set": ["ips-direct"], "outbound": "direct" },
       { "rule_set": ["ips-proxy"], "outbound": "proxy" },
 
       { "rule_set": ["apps-custom"], "outbound": "proxy" },
@@ -65,15 +65,17 @@
     "rule_set": [
       {
         "tag": "geoip-telegram",
-        "type": "local",
+        "type": "remote",
         "format": "binary",
-        "path": "rules/telegram.srs"
+        "url": "https://raw.githubusercontent.com/runetfreedom/russia-blocked-geoip/release/srs/telegram.srs",
+        "update_interval": "1d"
       },
       {
         "tag": "geoip-ru",
-        "type": "local",
+        "type": "remote",
         "format": "binary",
-        "path": "rules/geoip-ru.srs"
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-ru.srs",
+        "update_interval": "1d"
       },
 
       {
@@ -129,6 +131,7 @@
     ],
 
     "final": "direct",
-    "auto_detect_interface": true
+    "auto_detect_interface": true,
+    "find_process": true
   }
 }

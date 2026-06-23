@@ -5,6 +5,7 @@ const OUT_PATH = path.join(__dirname, "confd", "02-outbounds.json");
 
 const SELECTOR_TAG = "proxy";
 const SELECTOR_TYPE = "urltest";
+const SELECTOR_INTERRUPT_EXIST_CONNECTIONS = false;
 const TEST_URL = "https://www.gstatic.com/generate_204";
 
 async function getRawText(source) {
@@ -154,6 +155,7 @@ async function main() {
   const selector = {
     type: SELECTOR_TYPE,
     tag: SELECTOR_TAG,
+    interrupt_exist_connections: SELECTOR_INTERRUPT_EXIST_CONNECTIONS,
     outbounds: servers.map((s) => s.tag),
     ...(SELECTOR_TYPE === "urltest" ? { url: TEST_URL, interval: "3m", tolerance: 50 } : { default: servers[0].tag }),
   };
