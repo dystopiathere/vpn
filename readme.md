@@ -122,7 +122,7 @@ load-rules.bat
 
 ```json
 {
-  "version": 1,
+  "version": 4,
   "rules": [
     {
       "ip_cidr": ["203.0.113.7", "198.51.100.0/24", "198.51.100.7/32", "2001:db8::1"]
@@ -142,7 +142,7 @@ load-rules.bat
 
 ```json
 {
-  "version": 1,
+  "version": 4,
   "rules": [
     {
       "domain_suffix": ["example.com", "another-site.ru"]
@@ -160,7 +160,7 @@ load-rules.bat
 
 ```json
 {
-  "version": 1,
+  "version": 4,
   "rules": [
     {
       "process_name": ["chrome.exe", "msedge.exe"]
