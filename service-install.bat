@@ -1,9 +1,8 @@
 @echo off
 net session >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [ERROR] Run this script as Administrator.
-    pause
-    exit /b 1
+    powershell -Command "Start-Process '%~f0' -Verb RunAs"
+    exit /b
 )
 
 set "SINGBOX_DIR=%~dp0"

@@ -1,8 +1,8 @@
 {
-  "version": 1,
+  "version": 4,
   "rules": [
     {
-      "domain_suffix": []
+      "domain_suffix": ["afterdark-images.site"]
     }
   ]
 }
